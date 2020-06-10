@@ -1,30 +1,26 @@
-#include <stdio.h>
-
-int main(void){
-    int n;
-    int i, j;
-
-    scanf("%d", &n);
-
-    for(i = 0; i <= n; i++){
-        for(j = 0; j < n; j++){
-            if(i % 2 == 1){
-                if(j % 2 == 0){
-                    printf(" ");
-                }
-                if(j % 2 == 1){
-                    printf("*");
-                }
-            }
-            else{
-                if(j % 2 == 0){
-                    printf("*");
-                }
-                if(j % 2 == 1){
-                    printf(" ");
-                }
-            }
-        }
-        printf("\n");
-    }
+#include<stdio.h>
+int main(){
+	int num,i,j;
+	scanf("%d",&num);
+    
+	for(i=0;i<num*2;i++){
+		if(i%2==0){
+			for(j=0;j<num;j++){
+				if(j%2==0)
+					printf("*");
+				else
+					printf(" ");	
+			}
+		}
+		if(i%2==1){
+			for(j=0;j<num;j++){
+				if(j%2==1)
+					printf("*");
+				else
+					printf(" ");		
+			}
+		}
+		printf("\n");
+	}
+	return 0;
 }
