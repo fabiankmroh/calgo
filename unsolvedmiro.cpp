@@ -1,68 +1,63 @@
 #include <stdio.h>
-#include <queue>
 
 using namespace std;
 
-int map[100][100];
-int maph, mapw;
+char map[101][101];
+bool visited[101][101] = { false, };
+int rowM, colM;
+int i, j;
+int min = 10000;
 
+void miro(int row, int col, int dist){
+    if(row == rowM && col == colM){
+        printf("1\n");
+        if(dist < min)
+            min = dist;
+        return;
+    }
 
-typedef struct location{
-    int x;
-    int y;
-    int dist;
-} loc;
+    // Top
+    if(map[row-1][col] == '1' && row-1 >= 0 && visited[row-1][col] == false){
+        printf("2\n");
+        visited[row][col] = true;
+        miro(row-1, col, dist+1);
+    }
+
+    // Bottom
+    if(map[row+1][col] == '1' && row+1 <= rowM && visited[row+1][col] == false){
+        printf("3\n");
+        visited[row+1][col] = true;
+        miro(row+1, col, dist+1);
+    }
+
+    // Left
+    if(map[row][col-1] == '1' && col-1 >= 0 && visited[row][col-1] == false){
+        printf("4\n");
+        visited[row][col] = true;
+        miro(row, col-1, dist+1);
+    }
+
+    // Right
+    if(map[row][col+1] == '1' && col+1 <= colM && visited[row][col+1] == false){
+        printf("5\n");
+        visited[row][col] = true;
+        miro(row, col+1, dist+1);
+    }
+    printf("6\n");
+    return;
+}
 
 int main(void){
-    queue<loc> q;
-    scanf("%d %d", &mapw, &maph);
-    printf("Map size entered\n");
+    scanf("%d %d", &rowM, &colM);
 
-    int i, j;
-
-    printf("Start of Input Loop\n");
-    for(i = 0; i < mapw; i++){
-        for(j = 0; j < maph; j++){
-            printf("i: %d j: %d\n", i, j);
-            scanf("%d", &map[i][j]);
-        }
+    for(i = 0; i < rowM; i++){
+        scanf("%s", map[i]);
     }
+    rowM--;
+    colM--;
 
-    printf("Before push\n");
-    q.push((loc){0, 0, 0});
-    printf("Before declaring C\n");
-    loc c;
+    miro(0,0,0);
+    
+    printf("%d\n", min);
 
-    while(!q.empty()){
-        c = q.front();
-        printf("C is assigned front\n");
-
-        if(c.x == (mapw-1) && c.y == (maph-1)){
-            printf("Final conditional statement\n");
-            printf("%d\n", c.dist);
-
-            return 0;
-        }
-
-        q.pop();
-        printf("Q.pop\n");
-        if(map[c.x+1][c.y] != 0 && c.x+1 < mapw){
-            q.push((loc){c.x+1, c.y, c.dist+1});
-            printf("%d %d %d\n", c.x+1, c.y, c.dist+1);
-        }
-        if(map[c.x-1][c.y] != 0 && c.x-1 >= 0){
-            q.push((loc){c.x-1, c.y, c.dist+1});
-            printf("%d %d %d\n", c.x-1, c.y, c.dist+1);
-        }
-        if(map[c.x][c.y+1] != 0 && c.y+1 < maph){
-            q.push((loc){c.x, c.y+1, c.dist+1});
-            printf("%d %d %d\n", c.x, c.y+1, c.dist+1);
-        }
-        if(map[c.x][c.y-1] != 0 && c.y-1 >= 0){
-            q.push((loc){c.x, c.y-1, c.dist+1});
-            printf("%d %d %d\n", c.x, c.y-1, c.dist+1);
-        }
-    }
-
-    return 0;
 }
